@@ -1,5 +1,6 @@
-import nextcord, paladins_scraper, datetime
-from nextcord.ext import commands, tasks
+import discord
+import paladins_scraper, datetime
+from discord.ext import commands, tasks
 
 token ='MTA0NjQ2NjIyMDE5NjY0MjkzNw.GQwPs6.sh6Dn5frRAfH0GWt4Iyaup9mwsYScKS3VAtdiY'
 hours = [datetime.time(i) for i in range(0, 23)]
@@ -20,7 +21,7 @@ class MyCog(commands.Cog):
         
 
     
-    @tasks.loop(time=hours)
+    @tasks.loop(seconds=5)
     async def check(self):
         global current_chests
         previous_chests = current_chests
@@ -28,17 +29,20 @@ class MyCog(commands.Cog):
         if "Heart's Delights Chest" in current_chests:
             await channel.send(content = "It's here" + me.mention)
         if previous_chests == {} or current_chests == previous_chests:
+            await channel.send(content = "Working")
             return
         
         leaving = previous_chests.difference(current_chests)
         new = current_chests.difference(previous_chests)
-        embedVar = nextcord.Embed(title="New Chests in Store")
+        embedVar = discord.Embed(title="New Chests in Store")
         embedVar.add_field(name="Leaving Chests", value = str(leaving))
         embedVar.add_field(name="New Chests", value= str(new)) 
         await channel.send(embed=embedVar)
-        
-        
-client = commands.Bot()
-client.add_cog(MyCog(client))
+
+async def setup(bot):
+    await bot.add_cog(MyCog(bot))
+
+intents = discord.Intents().all()
+client = commands.Bot(command_prefix='/', intents=intents)
 
 client.run(token)
