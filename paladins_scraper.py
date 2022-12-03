@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+
 def main():
     url = "https://paladins.fandom.com/wiki/Treasure_Chests"
     response = requests.get(url)
@@ -14,4 +15,4 @@ def main():
     return (set(chests))
 
 if __name__ == '__main__':
-    print(main())
+    main()
