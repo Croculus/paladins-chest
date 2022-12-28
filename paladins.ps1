@@ -1,1 +1,0 @@
-Start-Process "com.epicgames.launcher://apps/badb0ee71b474ed591ec43212547cfc8%3A85a98d012e1245c8a6572f03fcf920b6%3AAntbird?action=launch&silent=true"

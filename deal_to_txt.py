@@ -1,32 +1,30 @@
-import os, time
-from ahk.window import Window
-from ahk import AHK, ActionChain
-from PIL import ImageGrab
+import imager, cloudmersive_ocr_api_client
+from cloudmersive_ocr_api_client.rest import ApiException
 
 
-ac = ActionChain()
-ahk = AHK()
+api_instance = cloudmersive_ocr_api_client.ImageOcrApi()
+api_instance.api_client.configuration.api_key = {}
+api_instance.api_client.configuration.api_key['Apikey'] = '23559cb9-24a0-4781-b0ac-fcae3d6247bb'
 
-win = ahk.active_window           
+imager.main()
 
-#run= os.startfile(r'com.epicgames.launcher://apps/badb0ee71b474ed591ec43212547cfc8%3A85a98d012e1245c8a6572f03fcf920b6%3AAntbird?action=launch&silent=true')
+deals = ['image\deal1.jpg','image\deal2.jpg', 'image\deal3.jpg']
 
-print('y')
-ss_region = (172, 185, 1251, 651)
-ss_img = ImageGrab.grab(ss_region)
-ss_img.save("image\deal.jpg")
-'''
-try:
-    win = ahk.win_wait(title = 'Paladins (64-bit', timeout=40)#doesn't work idk why
-    win.activate()#doesn't work idk why
-    print('yes')
-    ac.sleep(45)
-    ac.click(122, 443)
-    ac.sleep(3)
-    ac.click(781, 76)
-    ac.perform()
-
+text = []
+for deal in deals:
+    image_file = deal # file | Image file to perform OCR on.  Common file formats such as PNG, JPEG are supported.
+    try:
+        # Converts an uploaded image in common formats such as JPEG, PNG into text via Optical Character Recognition.
+        api_response = api_instance.image_ocr_post(image_file)
+        print(api_response)
+        text.append(api_response)
+    except ApiException as e:
+        print("Exception when calling ImageOcrApi->image_ocr_post: %s\n" % e)
     
-except TimeoutError:
-    print('Notepad was not found!')
-'''
+
+
+
+
+
+
+
