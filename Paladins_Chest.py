@@ -1,12 +1,12 @@
-import datetime, discord, os, asyncio
+import discord, os, asyncio
 from discord.ext import commands
 
 token ='MTA0NjQ2NjIyMDE5NjY0MjkzNw.GQwPs6.sh6Dn5frRAfH0GWt4Iyaup9mwsYScKS3VAtdiY'
-hours = [datetime.time(i) for i in range(0, 23)]
+
 
 
 intents = discord.Intents().all()
-client = commands.Bot(command_prefix='/', intents=intents) 
+client = commands.Bot(command_prefix='?', intents=intents) 
 
 @client.command()
 async def load(ctx, extension):

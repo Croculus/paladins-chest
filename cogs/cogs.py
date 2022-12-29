@@ -1,4 +1,4 @@
-import paladins_scraper, discord
+import paladins_scraper, discord, datetime, deal_to_txt
 from discord.ext import commands, tasks
 
 current_chests = set({})
@@ -40,9 +40,28 @@ class chestCheck(commands.Cog):
 class dailyDealCheck(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.Cog.listener()    
+    async def on_ready(self):
+        self.deals.start()
+
+    @tasks.loop(time=datetime.time(11))
+    async def deals(self):
+        watch_list = []
+        deals = deal_to_txt.main()
+        for deal in deals:
+            if any(item in deal for item in watch_list):
+                await channel.send(content = "It's here" + me.mention)
+        embedVar = discord.Embed(title="Daily Deals")
+        embedVar.add_field(name="Deal 1", value = deals[0])
+        embedVar.add_field(name="Deal 2", value = deals[1])
+        embedVar.add_field(name="Deal 3", value = deals[2])
+        await channel.send(embed=embedVar)
+    
     
     
 
     
 async def setup(bot):
     await bot.add_cog(chestCheck(bot))
+    await bot.add_cog(dailyDealCheck(bot))
