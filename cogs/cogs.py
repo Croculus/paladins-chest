@@ -1,8 +1,9 @@
-import paladins_scraper, discord, datetime, deal_to_txt
+import paladins_scraper, discord, datetime, deal_to_txt, os
 from discord.ext import commands, tasks
 
 current_chests = set({})
-
+watch_list = []
+wanted_chests = []
 class chestCheck(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -12,8 +13,8 @@ class chestCheck(commands.Cog):
     async def on_ready(self):
         print('Logged on as {0}!'.format(self.bot.user))
         global channel, me
-        channel = self.bot.get_channel(1046571039745900616)
-        me = await self.bot.fetch_user(310260290128183296)
+        channel = self.bot.get_channel(int(os.getenv('CHANNEL')))
+        me = await self.bot.fetch_user(int(os.getenv('USER_ID')))
         self.check.start()
         
 
@@ -24,7 +25,7 @@ class chestCheck(commands.Cog):
         previous_chests = current_chests
         current_chests = paladins_scraper.main()
         
-        if "Cyber Tech Chest" in current_chests:
+        if wanted_chests in current_chests:
             await channel.send(content = "It's here" + me.mention)
 
         elif current_chests == previous_chests:
@@ -47,7 +48,6 @@ class dailyDealCheck(commands.Cog):
 
     @tasks.loop(time=datetime.time(11))
     async def deals(self):
-        watch_list = []
         deals = deal_to_txt.main()
         for deal in deals:
             if any(item in deal for item in watch_list):

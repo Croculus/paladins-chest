@@ -1,7 +1,7 @@
 import discord, os, asyncio
 from discord.ext import commands
 
-token ='MTA0NjQ2NjIyMDE5NjY0MjkzNw.GQwPs6.sh6Dn5frRAfH0GWt4Iyaup9mwsYScKS3VAtdiY'
+token =os.getenv('BOT_TOKEN')
 
 
 

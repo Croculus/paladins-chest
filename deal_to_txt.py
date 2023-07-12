@@ -1,9 +1,9 @@
-import imager, ocrspace
+import imager, ocrspace, os
 
 
 def main():
     imager.main()
-    api = ocrspace.API(api_key='K88601409388957')
+    api = ocrspace.API(api_key=os.getenv('API_KEY'))
     deals = ['image\deal1.jpg','image\deal2.jpg', 'image\deal3.jpg']
 
     text = []

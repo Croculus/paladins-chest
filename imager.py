@@ -11,13 +11,15 @@ def main():
     win = ahk.win_get(title= 'Paladins (64-bit' )
     if win == None:
         try:
-            os.startfile(r'com.epicgames.launcher://apps/badb0ee71b474ed591ec43212547cfc8%3A85a98d012e1245c8a6572f03fcf920b6%3AAntbird?action=launch&silent=true')
-            win = ahk.win_wait(title = 'Paladins (64-bit', timeout=40)#doesn't work idk why
-            win.activate()#doesn't work idk why
+            os.startfile(r''.format(os.getenv('GAME_FILE')))
+            win = ahk.win_wait(title = 'Paladins (64-bit', timeout=40)
+            win.activate()
             print('window found')
             ac.sleep(40)
+            ac.click(700,840)
+            ac.sleep(0.5)
             ac.click(122, 443)
-            ac.sleep(3)
+            ac.sleep(0.5)
             ac.click(781, 76)
             ac.perform()
             for i in range(len(deals)):
@@ -32,6 +34,8 @@ def main():
     else: 
         win.activate()
         print('window found')
+        ac.click(700,840)
+        ac.sleep(0.5)
         ac.click(122, 443)
         ac.sleep(3)
         ac.click(781, 76)
@@ -41,6 +45,5 @@ def main():
             ss_img.save("image\deal{}.jpg".format(i+1))
     
 
-if __name__ == "__main__":
-    main()
+
 
